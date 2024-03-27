@@ -41,7 +41,7 @@ search_bar = wait.until(EC.element_to_be_clickable((By.ID, 'viewns_Z7_23F6KHG30G
 search_bar.click()
 
 # Type the desired text
-search_bar.send_keys("61958250101")
+search_bar.send_keys("61958250101") #USE CIN VALUES TO SEND KEYS
 
 # Press the "Enter" key
 search_bar.send_keys(Keys.ENTER)

@@ -1,15 +1,17 @@
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+from selenium.webdriver.common.keys import Keys # Import the Keys class for keyboard interactions
+import time # Import the time module
 
 # Path to the chromedriver executable (you need to download this separately)
 chromedriver_path = '/Users/adarshreddy/Desktop/chromedriver-mac-arm64/chromedriver'
 
 # Set up Chrome options (optional)
 chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless')  # To run Chrome in headless mode (without opening a window)
+chrome_options.add_argument('--headless') # To run Chrome in headless mode (without opening a window)
 
 # Initialize the Chrome WebDriver with options
 # driver = webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
@@ -32,9 +34,20 @@ password_element.send_keys('Raja8578!')
 submit_button = driver.find_element(By.ID, 'okta-signin-submit')
 submit_button.click()
 
-print(driver.title)
+# Wait for the search bar element to be clickable
+search_bar = wait.until(EC.element_to_be_clickable((By.ID, 'viewns_Z7_23F6KHG30GG980IKD2NS6Q00C6_:searchbarSubview:searchbarForm:endeca_search_box_input')))
 
-# Sleep for 10 seconds
-time.sleep(10)
+# Click on the search bar
+search_bar.click()
 
+# Type the desired text
+search_bar.send_keys("61958250101")
+
+# Press the "Enter" key
+search_bar.send_keys(Keys.ENTER)
+
+# Pause for 20 seconds
+time.sleep(500)
+
+# Close the browser window when done
 driver.quit()

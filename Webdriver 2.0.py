@@ -57,26 +57,46 @@ element = wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(tex
 elements2 = driver.find_elements(By.CLASS_NAME,"invoiceCost")
 cost = 0
 for el in elements2:
-    if (el.text.startswith("$")):
-        cost = el.text.replace("$","")
-        cost = cost.replace(",","")
+     if (el.text.startswith("$")):
+         cost = el.text.replace("$","")
+         cost = cost.replace(",","")
 
+
+# Generic Name
 elements2 = driver.find_elements(By.CLASS_NAME,"outputText")
+gen_name = ""
+elGenName = driver.find_element(By.XPATH, "//span[contains(@id, 'txtGenName')]")
+gen_name = elGenName.text
+
+# Description
+elements3 = driver.find_elements(By.CLASS_NAME,"outputText")
 decsr = ""
-elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtGenName')]")
+elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtDescription')]")
 decsr = elDescr.text
 
+# CIN
+elements4 = driver.find_elements(By.CLASS_NAME,"outputText")
+cin = ""
+elCin = driver.find_element(By.XPATH, "//span[contains(@id, 'txtCin')]")
+cin = elCin.text
 
-
+#NDC
+elements5 = driver.find_elements(By.CLASS_NAME,"outputText")
+ndc = ""
+elNdc = driver.find_element(By.XPATH, "//span[contains(@id, 'txtNdc')]")
+ndc = elNdc.text
 
 # for el in elements2:
-#     print ("id :" + el.id)
-#     print ("text "+el.text)
+#      print ("id :" + el.id)
+#      print ("text "+el.text)
 
-print (cost)
-        
-
+print(cost)     
 print(el.text)
+print(gen_name)
+print(decsr)
+print(cin)
+print(ndc)
+
 
 driver.quit()
 

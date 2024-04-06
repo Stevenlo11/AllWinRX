@@ -1,17 +1,16 @@
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys # Import the Keys class for keyboard interactions
-import time # Import the time module
+from selenium.webdriver.common.keys import Keys  # Import the Keys class for keyboard interactions
+import time  # Import the time module
 
 # Path to the chromedriver executable (you need to download this separately)
 chromedriver_path = '/Users/adarshreddy/Desktop/chromedriver-mac-arm64/chromedriver'
 
 # Set up Chrome options (optional)
 chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless') # To run Chrome in headless mode (without opening a window)
+chrome_options.add_argument('--headless')  # To run Chrome in headless mode (without opening a window)
 
 # Initialize the Chrome WebDriver with options
 # driver = webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
@@ -41,13 +40,51 @@ search_bar = wait.until(EC.element_to_be_clickable((By.ID, 'viewns_Z7_23F6KHG30G
 search_bar.click()
 
 # Type the desired text
-search_bar.send_keys("61958250101") #USE CIN VALUES TO SEND KEYS
+search_bar.send_keys("61958250101")
 
 # Press the "Enter" key
 search_bar.send_keys(Keys.ENTER)
 
-# Pause for 20 seconds
-time.sleep(500)
+# Pause for 5 seconds
+time.sleep(5)
 
-# Close the browser window when done
+anchor_element = driver.find_element(By.XPATH,"//a[@href='5423470']")
+anchor_element.click()
+
+time.sleep(5)
+
+element = wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Pricing Information')]")))
+elements2 = driver.find_elements(By.CLASS_NAME,"invoiceCost")
+cost = 0
+for el in elements2:
+    if (el.text.startswith("$")):
+        cost = el.text.replace("$","")
+        cost = cost.replace(",","")
+
+elements2 = driver.find_elements(By.CLASS_NAME,"outputText")
+decsr = ""
+elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtGenName')]")
+decsr = elDescr.text
+
+
+
+
+# for el in elements2:
+#     print ("id :" + el.id)
+#     print ("text "+el.text)
+
+print (cost)
+        
+
+print(el.text)
+
 driver.quit()
+
+
+
+
+
+
+
+
+# <span id="viewns_Z7_23F6KHG30O1080IK78A2NO3004_:frmProductDetails:txtInvoiceCost" class="invoiceCost">$3,808.03</span>

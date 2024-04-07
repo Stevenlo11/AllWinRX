@@ -12,7 +12,7 @@ def get_missing_data_drug_codes():
         if connection.is_connected():
             cursor = connection.cursor()
             #cursor.execute("SELECT * FROM NewMasterSheet LIMIT 0, 100;")
-            cursor.execute("SELECT DISTINCT NDC FROM NewMasterSheet")
+            cursor.execute("SELECT DISTINCT NDC FROM MasterSheet")
             fetch = cursor.fetchall()
             for row in fetch:
                 # Get values in CIN columns

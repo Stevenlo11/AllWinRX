@@ -69,10 +69,10 @@ elGenName = driver.find_element(By.XPATH, "//span[contains(@id, 'txtGenName')]")
 gen_name = elGenName.text
 
 # Description
-elements3 = driver.find_elements(By.CLASS_NAME,"outputText")
-decsr = ""
-elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtDescription')]")
-decsr = elDescr.text
+# elements3 = driver.find_elements(By.CLASS_NAME,"outputText")
+# decsr = ""
+# elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtDescription')]")
+# decsr = elDescr.text
 
 # CIN
 elements4 = driver.find_elements(By.CLASS_NAME,"outputText")
@@ -86,25 +86,39 @@ ndc = ""
 elNdc = driver.find_element(By.XPATH, "//span[contains(@id, 'txtNdc')]")
 ndc = elNdc.text
 
-# for el in elements2:
-#      print ("id :" + el.id)
-#      print ("text "+el.text)
+#Strength
+elements6 = driver.find_elements(By.CLASS_NAME,"outputText")
+str = ""
+elstr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtStrength')]")
+str = elstr.text
 
-print(cost)     
-print(el.text)
-print(gen_name)
-print(decsr)
-print(cin)
+#Trade Name
+elements7 = driver.find_elements(By.CLASS_NAME,"outputText")
+trade = ""
+eltrade = driver.find_element(By.XPATH, "//span[contains(@id, 'txtTradeName')]")
+trade = eltrade.text
+
+#Size Name
+elements8 = driver.find_elements(By.CLASS_NAME,"outputText")
+size = ""
+elsize = driver.find_element(By.XPATH, "//span[contains(@id, 'txtpackageQuantity1234')]")
+size = elsize.text
+
+#Form
+elements9 = driver.find_elements(By.CLASS_NAME,"outputText")
+form = ""
+elform = driver.find_element(By.XPATH, "//span[contains(@id, 'txtForm')]")
+form = elform.text
+
+
 print(ndc)
+print(cin)
+print(trade)
+print(gen_name)
+print(str)
+print(size)
+print(form)
+
 
 
 driver.quit()
-
-
-
-
-
-
-
-
-# <span id="viewns_Z7_23F6KHG30O1080IK78A2NO3004_:frmProductDetails:txtInvoiceCost" class="invoiceCost">$3,808.03</span>

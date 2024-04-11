@@ -1,4 +1,5 @@
 import mysql.connector
+#import Webdriver_2_0.py
 from mysql.connector import Error
 
 def get_missing_data_drug_codes():
@@ -12,11 +13,11 @@ def get_missing_data_drug_codes():
         if connection.is_connected():
             cursor = connection.cursor()
             #cursor.execute("SELECT * FROM NewMasterSheet LIMIT 0, 100;")
-            cursor.execute("SELECT DISTINCT NDC FROM MasterSheet")
+            cursor.execute("SELECT DISTINCT CIN FROM MasterSheet LIMIT 1,5")
             fetch = cursor.fetchall()
             for row in fetch:
                 # Get values in CIN columns
-                print(row)
+                print(row[0])
             #print(fetch)
     except Error as e:
         print(e)

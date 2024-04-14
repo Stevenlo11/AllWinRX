@@ -7,6 +7,7 @@ import time  # Import the time module
 import mysql.connector
 #import Webdriver_2_0.py
 from mysql.connector import Error
+import pandas as pd
 
 # Path to the chromedriver executable (you need to download this separately)
 chromedriver_path = '/Users/adarshreddy/Desktop/chromedriver-mac-arm64/chromedriver'
@@ -52,57 +53,61 @@ def scrape_data(cin):
 
     # Pause for 5 seconds
     time.sleep(5)
+    try:
+        cin_text = f"//a[@href='{cin}']"
+        anchor_element = driver.find_element(By.XPATH, cin_text)
+        anchor_element.click()
 
-    cin_text = f"//a[@href='{cin}']"
-    anchor_element = driver.find_element(By.XPATH, cin_text)
-    anchor_element.click()
+        time.sleep(5)
 
-    time.sleep(5)
-
-    element = wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Pricing Information')]")))
-    elements2 = driver.find_elements(By.CLASS_NAME,"invoiceCost")
-    cost = 0
-    for el in elements2:
-        if (el.text.startswith("$")):
-            cost = el.text.replace("$","")
-            cost = cost.replace(",","")
+        element = wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Pricing Information')]")))
+        elements2 = driver.find_elements(By.CLASS_NAME,"invoiceCost")
+        cost = 0
+        for el in elements2:
+            if (el.text.startswith("$")):
+                cost = el.text.replace("$","")
+                cost = cost.replace(",","")
 
 
-    # Generic Name
-    elements2 = driver.find_elements(By.CLASS_NAME,"outputText")
-    gen_name = ""
-    elGenName = driver.find_element(By.XPATH, "//span[contains(@id, 'txtGenName')]")
-    gen_name = elGenName.text
+        # Generic Name
+        elements2 = driver.find_elements(By.CLASS_NAME,"outputText")
+        gen_name = ""
+        elGenName = driver.find_element(By.XPATH, "//span[contains(@id, 'txtGenName')]")
+        gen_name = elGenName.text
 
-    # Description
-    elements3 = driver.find_elements(By.CLASS_NAME,"outputText")
-    decsr = ""
-    elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtDescription')]")
-    decsr = elDescr.text
+        # Description
+        elements3 = driver.find_elements(By.CLASS_NAME,"outputText")
+        decsr = ""
+        elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtDescription')]")
+        decsr = elDescr.text
 
-    # CIN
-    elements4 = driver.find_elements(By.CLASS_NAME,"outputText")
-    cin = ""
-    elCin = driver.find_element(By.XPATH, "//span[contains(@id, 'txtCin')]")
-    cin = elCin.text
+        # CIN
+        elements4 = driver.find_elements(By.CLASS_NAME,"outputText")
+        cin = ""
+        elCin = driver.find_element(By.XPATH, "//span[contains(@id, 'txtCin')]")
+        cin = elCin.text
 
-    #NDC
-    elements5 = driver.find_elements(By.CLASS_NAME,"outputText")
-    ndc = ""
-    elNdc = driver.find_element(By.XPATH, "//span[contains(@id, 'txtNdc')]")
-    ndc = elNdc.text
+        #NDC
+        elements5 = driver.find_elements(By.CLASS_NAME,"outputText")
+        ndc = ""
+        elNdc = driver.find_element(By.XPATH, "//span[contains(@id, 'txtNdc')]")
+        ndc = elNdc.text
 
-    # for el in elements2:
-    #      print ("id :" + el.id)
-    #      print ("text "+el.text)
+        # for el in elements2:
+        #      print ("id :" + el.id)
+        #      print ("text "+el.text)
 
-    print(cost)     
-    print(el.text)
-    print(gen_name)
-    print(decsr)
-    print(cin)
-    print(ndc)
+        print(cost)     
+        print(el.text)
+        print(gen_name)
+        print(decsr)
+        print(cin)
+        print(ndc)
+    except Error as e:
+        print(e)
     time.sleep(3)
+
+    # Need an update statement that will update this record, where the CIN value is the variable 'cin'
 
 def get_missing_data_drug_codes():
     try:
@@ -115,12 +120,17 @@ def get_missing_data_drug_codes():
         if connection.is_connected():
             cursor = connection.cursor()
             #cursor.execute("SELECT * FROM NewMasterSheet LIMIT 0, 100;")
-            cursor.execute("SELECT DISTINCT CIN FROM MasterSheet LIMIT 1,5")
+            cursor.execute("SELECT DISTINCT CIN FROM MasterSheet WHERE LIMIT 1,5")
             fetch = cursor.fetchall()
+            # Create a dataframe
+            df = pd.DataFrame(columns = ['TradeName', 'GenericName', 'Strength', 'Size', 'Form', 'Price'])
             for row in fetch:
                 # Get values in CIN columns
                 print(row[0])
-                scrape_data(row[0])
+                data = scrape_data(row[0])
+                ix = ix + 1
+                df.loc[ix] = data
+                df.append(data, ignore_index=True)
             #print(fetch)
     except Error as e:
         print(e)

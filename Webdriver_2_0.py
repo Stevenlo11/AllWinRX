@@ -76,22 +76,52 @@ def scrape_data(cin):
         gen_name = elGenName.text
 
         # Description
-        elements3 = driver.find_elements(By.CLASS_NAME,"outputText")
-        decsr = ""
-        elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtDescription')]")
-        decsr = elDescr.text
+        #elements3 = driver.find_elements(By.CLASS_NAME,"outputText")
+        #decsr = ""
+        #elDescr = driver.find_element(By.XPATH, "//span[contains(@id, 'txtDescription')]")
+        #decsr = elDescr.text
 
         # CIN
-        elements4 = driver.find_elements(By.CLASS_NAME,"outputText")
-        cin = ""
-        elCin = driver.find_element(By.XPATH, "//span[contains(@id, 'txtCin')]")
-        cin = elCin.text
+        #elements4 = driver.find_elements(By.CLASS_NAME,"outputText")
+        #cin = ""
+        #elCin = driver.find_element(By.XPATH, "//span[contains(@id, 'txtCin')]")
+        #cin = elCin.text
 
         #NDC
-        elements5 = driver.find_elements(By.CLASS_NAME,"outputText")
-        ndc = ""
-        elNdc = driver.find_element(By.XPATH, "//span[contains(@id, 'txtNdc')]")
-        ndc = elNdc.text
+        #elements5 = driver.find_elements(By.CLASS_NAME,"outputText")
+        #ndc = ""
+        #elNdc = driver.find_element(By.XPATH, "//span[contains(@id, 'txtNdc')]")
+        #ndc = elNdc.text
+
+        #Strength
+        elements6 = driver.find_elements(By.CLASS_NAME,"outputText")
+        strength = ""
+        elStrength = driver.find_element(By.XPATH, "//span[contains(@id, 'txtStrength')]")
+        strength = elStrength.text
+
+        #Size
+        elements7 = driver.find_elements(By.CLASS_NAME,"outputText")
+        size = ""
+        elSize = driver.find_element(By.XPATH, "//span[contains(@id, 'txtpackageQuantity1234')]")
+        size = elSize.text
+
+        #Form
+        elements8 = driver.find_elements(By.CLASS_NAME,"outputText")
+        form = ""
+        elForm = driver.find_element(By.XPATH, "//span[contains(@id, 'txtForm')]")
+        form = elForm.text
+
+        #Estimated Rebate Cost
+        elements9 = driver.find_elements(By.CLASS_NAME,"outputText")
+        erc = ""
+        elERC = driver.find_element(By.XPATH, "//span[contains(@id, 'txtEstRebateZero')]")
+        erc = elERC.text
+
+        #Trade Name
+        elements10 = driver.find_elements(By.CLASS_NAME,"outputText")
+        trade_name = ""
+        elTradeName = driver.find_element(By.XPATH, "//span[contains(@id, 'txtTradeName')]")
+        trade_name = elTradeName.text
 
         # for el in elements2:
         #      print ("id :" + el.id)
@@ -100,9 +130,10 @@ def scrape_data(cin):
         print(cost)     
         print(el.text)
         print(gen_name)
-        print(decsr)
-        print(cin)
-        print(ndc)
+        print(strength)
+        print(size)
+        print(form)
+        print(erc)
     except Error as e:
         print(e)
     time.sleep(3)
@@ -120,18 +151,20 @@ def get_missing_data_drug_codes():
         if connection.is_connected():
             cursor = connection.cursor()
             #cursor.execute("SELECT * FROM NewMasterSheet LIMIT 0, 100;")
-            cursor.execute("SELECT DISTINCT CIN FROM MasterSheet WHERE LIMIT 1,5")
+            cursor.execute("SELECT DISTINCT CIN FROM MasterSheet LIMIT 1")
             fetch = cursor.fetchall()
             # Create a dataframe
             df = pd.DataFrame(columns = ['TradeName', 'GenericName', 'Strength', 'Size', 'Form', 'Price'])
+            
+
+            ix = 0
             for row in fetch:
                 # Get values in CIN columns
                 print(row[0])
                 data = scrape_data(row[0])
                 ix = ix + 1
                 df.loc[ix] = data
-                df.append(data, ignore_index=True)
-            #print(fetch)
+                df._append(data, ignore_index=True)
     except Error as e:
         print(e)
     finally:
@@ -142,8 +175,6 @@ get_missing_data_drug_codes()
 
 
 driver.quit()
-
-
 
 
 

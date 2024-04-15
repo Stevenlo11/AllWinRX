@@ -73,7 +73,10 @@ def scrape_data(cin):
 
         elements9 = driver.find_elements(By.CLASS_NAME, "outputText")
         erc = ""
-        elERC = driver.find_element(By.XPATH, "//span[contains(@id, 'txtEstRebateZero')]")
+        try:
+            elERC = driver.find_element(By.XPATH, "//span[contains(@id, 'txtEstRebate')]")
+        except NoSuchElementException:
+            elERC = driver.find_element(By.XPATH, "//span[contains(@id, 'txtEstRebateZero')]")
         erc = elERC.text
 
         elements10 = driver.find_elements(By.CLASS_NAME, "outputText")

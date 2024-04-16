@@ -137,10 +137,7 @@ def get_missing_data_drug_codes():
                 """
                 SELECT DISTINCT CIN 
                 FROM MasterSheet 
-                WHERE 
-                    Price IS NULL OR
-                    Est_Rebate IS NULL 
-                LIMIT 30
+                LIMIT 1
                 """
             )
             fetch = cursor.fetchall()

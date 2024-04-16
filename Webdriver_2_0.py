@@ -11,6 +11,7 @@ import pandas as pd
 
 # Define df in the global scope
 df = pd.DataFrame(columns=['TradeName', 'GenericName', 'Strength', 'Size', 'Form', 'Price', 'ERC'])
+not_found_count = 0  # Initialize counter for not found values outside the loop
 
 chromedriver_path = '/Users/adarshreddy/Desktop/chromedriver-mac-arm64/chromedriver'
 chrome_options = webdriver.ChromeOptions()
@@ -30,18 +31,19 @@ submit_button = driver.find_element(By.ID, 'okta-signin-submit')
 submit_button.click()
 
 def scrape_data(cin):
+    global not_found_count
     wait = WebDriverWait(driver, 30)
     search_bar = wait.until(EC.element_to_be_clickable((By.ID, 'viewns_Z7_23F6KHG30GG980IKD2NS6Q00C6_:searchbarSubview:searchbarForm:endeca_search_box_input')))
     search_bar.click()
     search_bar.clear()
     search_bar.send_keys(cin)
     search_bar.send_keys(Keys.ENTER)
-    time.sleep(5)
+    time.sleep(3)
     try:
         cin_text = f"//a[@href='{cin}']"
         anchor_element = driver.find_element(By.XPATH, cin_text)
         anchor_element.click()
-        time.sleep(5)
+        time.sleep(3)
 
         element = wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Pricing Information')]")))
         elements2 = driver.find_elements(By.CLASS_NAME, "invoiceCost")
@@ -88,12 +90,13 @@ def scrape_data(cin):
         return trade_name, gen_name, strength, size, form, cost, erc
 
     except NoSuchElementException:
-        print(f"No value found for CIN: {cin}")
+        not_found_count += 1
+        print(f"No value found for CIN: {cin}. Total not found count: {not_found_count}")
         return None
 
     except Error as e:
         print(e)
-    time.sleep(3)
+    time.sleep(1)
 
 def update_data_in_database(cin, trade_name, gen_name, strength, size, form, cost, erc):
     try:
@@ -140,7 +143,7 @@ def get_missing_data_drug_codes():
                 WHERE 
                     Price IS NULL OR
                     Est_Rebate IS NULL 
-                LIMIT 30
+                LIMIT 595,1000
                 """
             )
             fetch = cursor.fetchall()

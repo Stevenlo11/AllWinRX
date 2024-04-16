@@ -143,7 +143,7 @@ def get_missing_data_drug_codes():
                 WHERE 
                     Price IS NULL OR
                     Est_Rebate IS NULL 
-                LIMIT 595,1000
+                LIMIT 595,100
                 """
             )
             fetch = cursor.fetchall()

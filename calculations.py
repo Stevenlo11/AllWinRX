@@ -26,6 +26,24 @@ def calculate_generic_percentage(generic_total, overall_total):
         return (generic_total / overall_total) * 100
     return 0
 
+# Function to fetch discount percentage
+def fetch_discount(connection, total_cost, generic_percentage):
+    try:
+        cursor = connection.cursor()
+        query = """
+        SELECT discount_pct_brand FROM rebate_1_Brand 
+        WHERE %s >= Monthly_sale_low AND %s <= Monthly_sale_high 
+        AND %s >= Generic_Low_pct AND %s <= Generic_high_pct
+        """
+        cursor.execute(query, (total_cost, total_cost, generic_percentage, generic_percentage))
+        result = cursor.fetchone()
+        discount = result[0] if result else 0  # Ensure we got a result
+        cursor.close()
+        return discount
+    except Error as e:
+        print(f"Error: {e}")
+        return 0
+
 # Main script execution
 if __name__ == '__main__':
     connection = mysql.connector.connect(
@@ -45,9 +63,17 @@ if __name__ == '__main__':
         # Calculate the generic percentage of total purchase cost
         generic_percentage = calculate_generic_percentage(generic_cost, total_cost)
 
+                # Fetch discount based on total cost and generic percentage
+        discount_percentage = fetch_discount(connection, total_cost, generic_percentage)
+
         # Output the results
         print(f"Total Purchase Cost: ${total_cost:.2f}")
         print(f"Generic Purchase Cost: ${generic_cost:.2f}")
         print(f"Generic Percentage of Total Purchase Cost: {generic_percentage:.2f}%")
+        print(f"Applicable Discount Percentage: {discount_percentage:.2f}%")
+
+
+
+
 
         connection.close()

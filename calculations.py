@@ -31,9 +31,9 @@ def fetch_discount(connection, total_cost, generic_percentage):
     try:
         cursor = connection.cursor()
         query = """
-        SELECT discount_pct_brand FROM rebate_1_Brand 
+        SELECT Discount_pct_brand FROM Rebate_1_brand 
         WHERE %s >= Monthly_sale_low AND %s <= Monthly_sale_high 
-        AND %s >= Generic_Low_pct AND %s <= Generic_high_pct
+        AND %s >= Generic_Low_pct AND %s <= Generic_High_pct
         """
         cursor.execute(query, (total_cost, total_cost, generic_percentage, generic_percentage))
         result = cursor.fetchone()

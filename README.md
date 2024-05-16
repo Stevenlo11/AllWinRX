@@ -1,8 +1,8 @@
 # AllWinRX
 
+- Adarsh Reddy (Project Manager)
 - Steven Lo (Data Engineer)
 - Yonathan Amare (Software Engineer)
-- Adarsh Reddy (Project Manager)
 
 **Project Overview:**
 AllWinRx aims to assist small independent pharmacies in calculating drug price comparisons and potential savings by joining the All Win Rx Group Purchasing Organization (GPO). We developed a comprehensive database and analytical tools to help these pharmacies quantify discounts and improve profitability.

@@ -11,7 +11,7 @@ AllWinRx aims to assist small independent pharmacies in calculating drug price c
 Small pharmacies often face high medicine costs due to limited bargaining power. Our project helps these pharmacies evaluate potential savings from GPO memberships, providing them with accurate cost analyses and strategic purchasing tools.
 
 **Solution:**
-We created a robust SQL database to store drug prices and customer purchase data, developed a web scraper (*Webdriveriver_2_0.py*) using Selenium to gather missing data, and implemented SQL queries to calculate potential savings from GPO rebates (*calculations.py*).
+We created a robust SQL database to store drug prices and customer purchase data, developed a web scraper (*Webdriver_2_0.py*) using Selenium to gather missing data, and implemented SQL queries to calculate potential savings from GPO rebates (*calculations.py*).
 
 **Technologies Used:**
 - **Programming Languages:** Python, SQL, HTML

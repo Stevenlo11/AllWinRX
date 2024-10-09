@@ -60,4 +60,4 @@ We created a robust **SQL database** to store drug prices and customer purchase 
 - **Improved Web Scraping**: Optimizing the web scraper for faster and more efficient data extraction.
 
 ## Contact
-For more information, feel free to reach out to any of the project members or visit our [GitHub repository](#).
+For more information, feel free to reach out to any of the project members.
